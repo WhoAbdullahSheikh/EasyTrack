@@ -68,12 +68,12 @@ const D_RoutesScreen = ({ navigation }) => {
         setIsModalVisible(true);
       }
     } else {
-      setLocationPermission(true); // iOS automatically handles location permissions
+      setLocationPermission(true); 
     }
   };  
   const getUserLocation = () => {
     if (!locationPermission) {
-      // If permission is not granted, show an error or handle accordingly
+      
       setErrorMessage("Location permission is required to get current location.");
       setIsModalVisible(true);
       setLoading(false);
@@ -84,7 +84,7 @@ const D_RoutesScreen = ({ navigation }) => {
       (position) => {
         const { latitude, longitude } = position.coords;
         
-        // Check if the position is valid
+        
         if (latitude && longitude) {
           setRegion({
             latitude,
@@ -94,7 +94,7 @@ const D_RoutesScreen = ({ navigation }) => {
           });
           setLoading(false);
         } else {
-          // Handle case where latitude/longitude is invalid
+          
           console.log("Invalid location data received.");
           setErrorMessage("Unable to get a valid location.");
           setIsModalVisible(true);
@@ -102,15 +102,15 @@ const D_RoutesScreen = ({ navigation }) => {
         }
       },
       (error) => {
-        // Handle location error (e.g., permission denied or timeout)
+        
         console.log("Location error:", error);
   
-        // Show an error if location cannot be fetched
+        
         setErrorMessage("Unable to fetch location. Please check your permissions or try again.");
         setIsModalVisible(true);
         setLoading(false);
       },
-      { enableHighAccuracy: true, timeout: 10000 } // You can adjust timeout here if needed
+      { enableHighAccuracy: true, timeout: 10000 } 
     );
   };
   
@@ -232,7 +232,7 @@ const D_RoutesScreen = ({ navigation }) => {
         )}
 
         <TouchableOpacity
-          style={styles.toggleButton} // Adjust the value from 100 to 60
+          style={styles.toggleButton} 
           onPress={toggleFullscreen}
         >
           <View style={styles.iconBackground}>
@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 15,
-    flexDirection: "row", // Use row to align text and icon horizontally
+    flexDirection: "row", 
     justifyContent: "center",
     alignItems: "center",
     marginTop: 15,
@@ -498,10 +498,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
     fontWeight: "bold",
-    marginRight: 8, // Space between the text and the icon
+    marginRight: 8, 
   },
   chevronIcon: {
-    marginLeft: 5, // Optional: Add space between text and the icon
+    marginLeft: 5, 
   },
 });
 
