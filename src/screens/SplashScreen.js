@@ -42,11 +42,13 @@ const SplashScreen = ({ navigation }) => {
       <View style={styles.leftSide}></View>
       <View style={styles.rightSide}></View>
 
-      <Image
-        source={require("../../assets/logo2.png")}
-        style={styles.logo}
-        resizeMode="contain"
-      />
+      <Animated.View style={[styles.logoContainer, { opacity: fadeAnim }]}>
+        <Image
+          source={require("../../assets/logo2.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </Animated.View>
     </View>
   );
 };
@@ -64,11 +66,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#6db2fc",
   },
-  logo: {
+  logoContainer: {
     position: "absolute",
-    top: "35%",
-    left: 10,
+    top: "50%",
+    left: "50%",
+    transform: [{ translateX: -100 }, { translateY: -100 }],
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logo: {
     height: 200,
+    width: 200,  // Make the logo square to center it nicely
   },
 });
 
