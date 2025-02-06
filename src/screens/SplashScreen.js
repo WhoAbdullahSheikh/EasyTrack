@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 200,
-    width: 200,  // Make the logo square to center it nicely
+    width: 200,
   },
 });
 

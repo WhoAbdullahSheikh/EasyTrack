@@ -343,7 +343,7 @@ const RoutesScreen = () => {
                 </View>
                 <View style={styles.detailsContainer}>
                   <Text style={styles.CardTitle}>
-                    {route.busId} {}
+                    {route.vehicleNumber} {}
                   </Text>
 
                   {}
