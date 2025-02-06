@@ -236,7 +236,7 @@ const D_RoutesScreen = ({ navigation }) => {
     <Text style={styles.AvlBusesLabel}>Assigned Stops</Text>
   </View>
 
-  {/* Scrollable Section for Assigned Routes */}
+  {}
   <ScrollView contentContainerStyle={styles.routesContent}>
     {assignedRoutes.length > 0 ? (
       assignedRoutes.map((route, index) => (
@@ -271,7 +271,7 @@ const D_RoutesScreen = ({ navigation }) => {
                 Description: {route.description}
               </Text>
 
-              {/* New button to navigate to CompletedStops */}
+              {}
               <TouchableOpacity
                 style={styles.completedButton}
                 onPress={() =>
@@ -283,7 +283,7 @@ const D_RoutesScreen = ({ navigation }) => {
                 <Text style={styles.completedButtonText}>
                   View Stops
                 </Text>
-                {/* Chevron Right Icon */}
+                {}
                 <Icon3
                   name="chevron-forward"
                   size={20}
@@ -396,8 +396,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   routeLabel: {
-    fontWeight: "bold", // Bold the label
-    fontSize: 12,  // Same size as routeText
+    fontWeight: "bold",
+    fontSize: 12,
     color: "#333",
   },
   modalOverlay: {

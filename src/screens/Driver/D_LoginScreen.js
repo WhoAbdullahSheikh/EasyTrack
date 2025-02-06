@@ -75,7 +75,7 @@ const D_LoginScreen = ({ navigation }) => {
 
       if (user.password === password) {
         await AsyncStorage.setItem("driverSession", JSON.stringify({ email }));
-        navigation.replace("DriverMainApp"); // Use replace to avoid stack issues
+        navigation.replace("DriverMainApp");
       } else {
         showModal("Incorrect password");
       }

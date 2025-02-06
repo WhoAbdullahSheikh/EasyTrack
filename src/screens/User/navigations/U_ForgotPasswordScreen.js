@@ -18,8 +18,8 @@ const U_ForgotPasswordScreen = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State for showing/hiding password
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChangePassword = async () => {
     if (isUpdating) return;
@@ -47,7 +47,6 @@ const U_ForgotPasswordScreen = ({ navigation }) => {
 
       const { email } = JSON.parse(session);
 
-      // Fetch the user document using the email from session
       const userSnapshot = await firestore()
         .collection("Users")
         .where("email", "==", email)
@@ -61,16 +60,15 @@ const U_ForgotPasswordScreen = ({ navigation }) => {
 
       const userDoc = userSnapshot.docs[0];
 
-      // Update the password (assuming you store password in Firestore)
       await firestore()
         .collection("Users")
         .doc(userDoc.id)
         .update({
-          password: newPassword, // Ensure you have a field for password in your Firestore document
+          password: newPassword,
         });
 
       Alert.alert("Success", "Your password has been updated.");
-      navigation.goBack(); // Optionally navigate back to the previous screen
+      navigation.goBack();
     } catch (error) {
       console.error("Error updating password:", error);
       Alert.alert("Error", "An error occurred while updating the password.");
@@ -183,7 +181,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     backgroundColor: "#fff",
-    color: "black", // Ensuring the text color is black
+    color: "black",
     flex: 1,
   },
   passwordInputContainer: {

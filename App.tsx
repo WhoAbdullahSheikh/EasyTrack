@@ -25,7 +25,7 @@ const App = () => {
       <StatusBar barStyle="default" />
 
       <Stack.Navigator initialRouteName="SplashScreen">
-        {/* Splash Screen */}
+        {}
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
@@ -34,7 +34,7 @@ const App = () => {
           }}
         />
 
-        {/* Options Screen */}
+        {}
         <Stack.Screen
           name="Options"
           component={OptionsScreen}
@@ -43,7 +43,7 @@ const App = () => {
           }}
         />
 
-        {/* User Login Screen */}
+        {}
         <Stack.Screen
           name="U_Login"
           component={U_LoginScreen}
@@ -52,7 +52,7 @@ const App = () => {
           }}
         />
 
-        {/* Driver Login Screen */}
+        {}
         <Stack.Screen
           name="D_Login"
           component={D_LoginScreen}
@@ -61,7 +61,7 @@ const App = () => {
           }}
         />
 
-        {/* User and Driver SignUp Screens */}
+        {}
         <Stack.Screen
           name="U_SignUp"
           component={U_SignUpScreen}
@@ -77,7 +77,7 @@ const App = () => {
           }}
         />
 
-        {/* Main App Screens */}
+        {}
         <Stack.Screen
           name="MainApp"
           component={MainAppScreen}
@@ -86,7 +86,7 @@ const App = () => {
           }}
         />
 
-        {/* Driver Main App Screen */}
+        {}
         <Stack.Screen
           name="DriverMainApp"
           component={DriverMainAppScreen}
@@ -95,7 +95,7 @@ const App = () => {
           }}
         />
 
-        {/* Other Screens */}
+        {}
         <Stack.Screen
           name="Routes"
           component={RoutesScreen}

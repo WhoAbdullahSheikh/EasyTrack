@@ -44,7 +44,7 @@ const DriverMainAppScreen = () => {
         },
       }}
     >
-      {/* Driver Home Screen */}
+      {}
       <Tab.Screen
         name="D_Home"
         component={D_HomeScreen}
@@ -70,7 +70,7 @@ const DriverMainAppScreen = () => {
         }}
       />
       
-      {/* Driver Routes Screen */}
+      {}
       <Tab.Screen
         name="D_Routes"
         component={D_RoutesScreen}
@@ -100,7 +100,7 @@ const DriverMainAppScreen = () => {
         }}
       />
       
-      {/* Driver Profile Screen */}
+      {}
       <Tab.Screen
         name="D_Profile"
         component={D_AccountScreen}

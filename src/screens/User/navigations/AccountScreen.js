@@ -107,7 +107,7 @@ const AccountScreen = () => {
       <View style={styles.cardContainer}>
         <Text style={styles.cardTitle}>Account Details</Text>
 
-        {/* Divider Line Below the Title */}
+        {}
         <View style={styles.divider} />
 
         <View style={styles.detailsContainer}>
@@ -142,7 +142,7 @@ const AccountScreen = () => {
         </View>
       </View>
 
-      {/* Profile Settings */}
+      {}
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("ProfileSettings")}
@@ -162,7 +162,7 @@ const AccountScreen = () => {
         />
       </TouchableOpacity>
 
-      {/* Privacy & Security */}
+      {}
       <TouchableOpacity style={styles.securityButton}
         onPress={() => navigation.navigate("UForgotPassword")}
         >
@@ -181,7 +181,7 @@ const AccountScreen = () => {
         />
       </TouchableOpacity>
 
-      {/* Logout Button */}
+      {}
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutButtonText}>Logout</Text>
       </TouchableOpacity>
@@ -191,7 +191,7 @@ const AccountScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1, // Ensures ScrollView takes all available height
+    flexGrow: 1,
     justifyContent: "flex-start",
     alignItems: "center",
     paddingTop: 20,
@@ -239,7 +239,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "#1a81f0",
   },
-  // Divider Line Below Account Details
   divider: {
     height: 0.8,
     backgroundColor: "#1a81f0",

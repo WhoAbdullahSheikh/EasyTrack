@@ -196,7 +196,7 @@ const RoutesScreen = () => {
       keyboardShouldPersistTaps="handled"
       ref={scrollViewRef}
     >
-      {/* Input Fields for Start and Destination */}
+      {}
       <View style={styles.inputContainer}>
         <View style={styles.inputWithIcon}>
           <Icon
@@ -226,7 +226,7 @@ const RoutesScreen = () => {
         </View>
       </View>
 
-      {/* Time Slots */}
+      {}
       <View style={styles.timeSlotsContainer}>
         <Text style={styles.timeSlotLabel}>Select Time Slot</Text>
         <View style={styles.timeSlots}>
@@ -252,12 +252,12 @@ const RoutesScreen = () => {
         </View>
       </View>
 
-      {/* Search Button */}
+      {}
       <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
         <Text style={styles.searchButtonText}>Search</Text>
       </TouchableOpacity>
 
-      {/* Map View */}
+      {}
       <View style={styles.mapContainer}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
@@ -271,7 +271,7 @@ const RoutesScreen = () => {
             mapType={mapType}
             showsTraffic={showTraffic}
           >
-            {/* Render Markers for filtered Stops, if any */}
+            {}
             {(filteredRoutes.length > 0 ? filteredRoutes : allRoutes).map(
               (route, index) => (
                 <Marker
@@ -288,7 +288,7 @@ const RoutesScreen = () => {
           </MapView>
         )}
 
-        {/* Button to toggle map options */}
+        {}
         <TouchableOpacity
           style={styles.toggleButton}
           onPress={toggleMapOptions}
@@ -298,10 +298,10 @@ const RoutesScreen = () => {
           </View>
         </TouchableOpacity>
 
-        {/* Animated options menu */}
+        {}
         {showMapOptions && (
           <Animated.View style={[styles.optionsMenu, { opacity: animation }]}>
-            {/* Custom buttons with styles */}
+            {}
             <TouchableOpacity
               style={[styles.customButton, styles.standardButton]}
               onPress={() => changeMapType("standard")}
@@ -326,7 +326,7 @@ const RoutesScreen = () => {
         )}
       </View>
 
-      {/* Filtered Routes Display */}
+      {}
       <View style={styles.routesContainer}>
         <Text style={styles.AvlBusesLabel}>Available Buses</Text>
         {filteredRoutes.length > 0 ? (
@@ -343,10 +343,10 @@ const RoutesScreen = () => {
                 </View>
                 <View style={styles.detailsContainer}>
                   <Text style={styles.CardTitle}>
-                    {route.busId} {/* Show Bus ID as the title */}
+                    {route.busId} {}
                   </Text>
 
-                  {/* Divider Line Below Card Title */}
+                  {}
                   <View style={styles.divider} />
 
                   <Text style={styles.routeText}>
@@ -495,19 +495,19 @@ const styles = StyleSheet.create({
   },
 
   standardButton: {
-    backgroundColor: "#4CAF50", // Green color for Standard
+    backgroundColor: "#4CAF50",
   },
 
   hybridButton: {
-    backgroundColor: "#FF9800", // Orange color for Hybrid
+    backgroundColor: "#FF9800",
   },
 
   satelliteButton: {
-    backgroundColor: "#2196F3", // Blue color for Satellite
+    backgroundColor: "#2196F3",
   },
 
   buttonText: {
-    color: "#fff", // White text color
+    color: "#fff",
     fontSize: 13,
     fontFamily: "Raleway-Bold",
   },

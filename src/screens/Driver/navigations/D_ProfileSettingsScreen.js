@@ -155,7 +155,7 @@ const D_ProfileSettingsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Profile Image */}
+      {}
       <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
         <Image
           source={{
@@ -174,7 +174,7 @@ const D_ProfileSettingsScreen = ({ navigation }) => {
         />
       </TouchableOpacity>
 
-      {/* Input Fields */}
+      {}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Name</Text>
         <TextInput
@@ -193,7 +193,7 @@ const D_ProfileSettingsScreen = ({ navigation }) => {
         />
       </View>
 
-      {/* Update Button */}
+      {}
       <TouchableOpacity
         style={styles.updateButton}
         onPress={handleUpdateProfile}

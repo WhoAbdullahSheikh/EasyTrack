@@ -185,7 +185,7 @@ const D_HomeScreen = () => {
         mapType={mapType}
         showsTraffic={true}
       >
-        {/* Dynamically render markers for stops with custom icons */}
+        {}
         {stops.map((stop, index) => (
           <Marker
             key={`${stop.id}-${index}`}
@@ -198,17 +198,17 @@ const D_HomeScreen = () => {
         ))}
       </MapView>
 
-      {/* Button to toggle map options */}
+      {}
       <TouchableOpacity style={styles.toggleButton} onPress={toggleMapOptions}>
         <View style={styles.iconBackground}>
           <Icon2 name="globe" size={25} color="#616161" />
         </View>
       </TouchableOpacity>
 
-      {/* Animated options menu with buttons in a row */}
+      {}
       {showMapOptions && (
         <Animated.View style={[styles.optionsMenu, { opacity: animation }]}>
-          {/* Map type buttons in a row */}
+          {}
           <View style={styles.buttonRow}>
             <TouchableOpacity
               style={[styles.customButton, styles.standardButton]}
@@ -234,7 +234,7 @@ const D_HomeScreen = () => {
         </Animated.View>
       )}
 
-      {/* Zoom In and Zoom Out Buttons */}
+      {}
       <TouchableOpacity
         style={[styles.zoomButton, styles.zoomInButton]}
         onPress={zoomIn}

@@ -26,7 +26,7 @@ const CompletedStopsScreen = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showMapOptions, setShowMapOptions] = useState(false);
   const [animation] = useState(new Animated.Value(0));
-  const [isFullscreen, setIsFullscreen] = useState(false); // Fullscreen state
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
     const getDriverData = async () => {
@@ -106,7 +106,7 @@ const CompletedStopsScreen = ({ navigation }) => {
     <ScrollView contentContainerStyle={styles.container}>
       {showMapOptions && (
         <Animated.View style={[styles.optionsMenu, { opacity: animation }]}>
-          {/* Custom buttons with styles */}
+          {}
           <TouchableOpacity
             style={[styles.customButton, styles.standardButton]}
             onPress={() => changeMapType("standard")}
@@ -130,7 +130,7 @@ const CompletedStopsScreen = ({ navigation }) => {
         </Animated.View>
       )}
 
-      {/* Route Cards at the Bottom */}
+      {}
       <View style={styles.routesContainer}>
         <Text style={styles.AvlBusesLabel}>Assigned Stops</Text>
         {assignedRoutes.length > 0 ? (
@@ -178,7 +178,7 @@ const CompletedStopsScreen = ({ navigation }) => {
         )}
       </View>
 
-      {/* Modal for errors */}
+      {}
       <Modal
         animationType="fade"
         transparent={true}

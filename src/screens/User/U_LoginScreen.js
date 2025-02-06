@@ -100,7 +100,7 @@ const U_LoginScreen = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {/* Top Sheet with Logo */}
+        {}
         <View style={styles.topSheet}>
           <Image
             source={require("../../../assets/logo.png")}

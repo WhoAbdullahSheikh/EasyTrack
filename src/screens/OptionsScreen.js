@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const OptionsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      {/* Top Sheet */}
+      {}
       <View style={styles.topSheet}>
         <Image
           source={require('../../assets/logo.png')} 
@@ -72,12 +72,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20, 
     flexDirection: 'row', 
-    justifyContent: 'space-between',  // Adjusted to space out the icons and text
+    justifyContent: 'space-between',
     shadowColor: '#000', 
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.1,
     shadowRadius: 10, 
-    elevation: 8,  // Increased elevation for Android shadow effect
+    elevation: 8,
   },
   DriverSignup: {
     backgroundColor: '#fa9837', 
@@ -86,12 +86,12 @@ const styles = StyleSheet.create({
     width: '80%', 
     alignItems: 'center',
     flexDirection: 'row', 
-    justifyContent: 'space-between',  // Adjusted to space out the icons and text
+    justifyContent: 'space-between',
     shadowColor: '#000', 
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.8,
     shadowRadius: 10, 
-    elevation: 8,  // Increased elevation for Android shadow effect
+    elevation: 8,
   },
   buttonText: {
     color: '#FFF', 

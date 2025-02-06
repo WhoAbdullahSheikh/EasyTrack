@@ -14,7 +14,7 @@ import {
   Platform 
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import  Ionicons  from 'react-native-vector-icons/Ionicons'; // Import Ionicons for the show password icon
+import  Ionicons  from 'react-native-vector-icons/Ionicons'; 
 
 const U_SignUpScreen = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -25,8 +25,8 @@ const U_SignUpScreen = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false); 
-  const [showPassword, setShowPassword] = useState(false); // Manage password visibility
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Manage confirm password visibility
+  const [showPassword, setShowPassword] = useState(false); 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
 
   const usersCollection = firestore().collection('Users');
 
@@ -83,9 +83,9 @@ const U_SignUpScreen = ({ navigation }) => {
       style={styles.container} 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      {/* ScrollView to make the form scrollable */}
+      {}
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {/* Top Sheet with Logo */}
+        {}
         <View style={styles.topSheet}>
           <Image
             source={require('../../../assets/logo.png')} 
@@ -123,7 +123,7 @@ const U_SignUpScreen = ({ navigation }) => {
           maxLength={10}
         />
 
-        {/* Password Field with Show/Hide Icon */}
+        {}
         <View style={styles.passwordContainer}>
           <TextInput
             style={styles.input}
@@ -131,7 +131,7 @@ const U_SignUpScreen = ({ navigation }) => {
             placeholderTextColor="#888"
             value={password}
             onChangeText={setPassword}
-            secureTextEntry={!showPassword} // Toggle the visibility
+            secureTextEntry={!showPassword} 
           />
           <TouchableOpacity
             onPress={() => setShowPassword(!showPassword)}
@@ -141,7 +141,7 @@ const U_SignUpScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Confirm Password Field with Show/Hide Icon */}
+        {}
         <View style={styles.passwordContainer}>
           <TextInput
             style={styles.input}
@@ -149,7 +149,7 @@ const U_SignUpScreen = ({ navigation }) => {
             placeholderTextColor="#888"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
-            secureTextEntry={!showConfirmPassword} // Toggle the visibility
+            secureTextEntry={!showConfirmPassword} 
           />
           <TouchableOpacity
             onPress={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -167,13 +167,13 @@ const U_SignUpScreen = ({ navigation }) => {
           <Text style={styles.link}>Already have an account? Login</Text>
         </TouchableOpacity>
 
-        {/* Change Account Type Button */}
+        {}
         <TouchableOpacity style={styles.accountTypeButton} onPress={() => navigation.navigate('Options')}>
           <Text style={styles.accountTypeButtonText}>Change Account Type</Text>
         </TouchableOpacity>
       </ScrollView>
 
-      {/* Modal for displaying error message */}
+      {}
       <Modal
         animationType="fade"
         transparent={true}
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Regular',
   },
   accountTypeButton: {
-    backgroundColor: '#f25e65', // Button color
+    backgroundColor: '#f25e65', 
     padding: 15,
     borderRadius: 10,
     width: '100%',

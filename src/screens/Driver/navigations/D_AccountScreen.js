@@ -105,7 +105,7 @@ const D_AccountScreen = () => {
       <View style={styles.cardContainer}>
         <Text style={styles.cardTitle}>Driver Details</Text>
 
-        {/* Divider Line Below the Title */}
+        {}
         <View style={styles.divider} />
 
         <View style={styles.detailsContainer}>
@@ -138,7 +138,7 @@ const D_AccountScreen = () => {
         </View>
       </View>
 
-      {/* Profile Settings */}
+      {}
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("DProfileSettings")}
@@ -158,7 +158,7 @@ const D_AccountScreen = () => {
         />
       </TouchableOpacity>
 
-      {/* Privacy & Security */}
+      {}
       <TouchableOpacity style={styles.securityButton}
          onPress={() => navigation.navigate("ForgotPassword")
       }>
@@ -177,7 +177,7 @@ const D_AccountScreen = () => {
         />
       </TouchableOpacity>
 
-      {/* Logout Button */}
+      {}
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutButtonText}>Logout</Text>
       </TouchableOpacity>
@@ -187,7 +187,7 @@ const D_AccountScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1, // Ensures ScrollView takes all available height
+    flexGrow: 1,
     justifyContent: "flex-start",
     alignItems: "center",
     paddingTop: 20,
