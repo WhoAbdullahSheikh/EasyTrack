@@ -1,24 +1,21 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
-  ActivityIndicator,
+  StyleSheet,
   TouchableOpacity,
-  PermissionsAndroid,
-  Platform,
-  Animated,
-  ScrollView,
   Modal,
   Image,
+  Animated,
+  ScrollView,
+  ActivityIndicator,
 } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import Geolocation from "@react-native-community/geolocation";
 import firestore from "@react-native-firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Icon from "react-native-vector-icons/FontAwesome5";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import Icon from "react-native-vector-icons/FontAwesome";
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import Icon3 from "react-native-vector-icons/Ionicons";
-
 const D_RoutesScreen = ({ navigation }) => {
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [assignedRoutes, setAssignedRoutes] = useState([]);
@@ -31,82 +28,23 @@ const D_RoutesScreen = ({ navigation }) => {
   const [animation] = useState(new Animated.Value(0));
   const [showTraffic, setShowTraffic] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [locationPermission, setLocationPermission] = useState(false);
-
-  const scrollViewRef = useRef(null);
 
   useEffect(() => {
-    requestLocationPermission();
+    const getDriverData = async () => {
+      const session = await AsyncStorage.getItem("driverSession");
+      if (session) {
+        const { email } = JSON.parse(session);
+        fetchVehicleNumber(email);
+      } else {
+        console.log("No session email found.");
+        setLoading(false);
+        setErrorMessage("Session expired. Please log in again.");
+        setIsModalVisible(true);
+      }
+    };
+
     getDriverData();
   }, []);
-
-  useEffect(() => {
-    if (locationPermission) {
-      getUserLocation();
-    }
-  }, [locationPermission]);
-
-  const requestLocationPermission = async () => {
-    if (Platform.OS === "android") {
-      const granted = await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-      ]);
-
-      if (
-        granted[PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION] ===
-          PermissionsAndroid.RESULTS.GRANTED &&
-        granted[PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION] ===
-          PermissionsAndroid.RESULTS.GRANTED
-      ) {
-        setLocationPermission(true);
-      } else {
-        console.log("Location permission denied");
-        setLocationPermission(false);
-      }
-    } else {
-      setLocationPermission(true);
-    }
-  };
-
-  const getUserLocation = () => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setRegion({
-          latitude,
-          longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        });
-        setLoading(false);
-      },
-      (error) => {
-        console.log("Location error:", error);
-        setRegion({
-          latitude: 33.5651, // Default location (e.g., Islamabad)
-          longitude: 73.0169,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        });
-        setLoading(false);
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 10000 }
-    );
-  };
-
-  const getDriverData = async () => {
-    const session = await AsyncStorage.getItem("driverSession");
-    if (session) {
-      const { email } = JSON.parse(session);
-      fetchVehicleNumber(email);
-    } else {
-      console.log("No session email found.");
-      setLoading(false);
-      setErrorMessage("Session expired. Please log in again.");
-      setIsModalVisible(true);
-    }
-  };
 
   const fetchVehicleNumber = async (email) => {
     try {
@@ -117,14 +55,15 @@ const D_RoutesScreen = ({ navigation }) => {
 
       if (!driverDoc.empty) {
         const driverData = driverDoc.docs[0].data();
-        setVehicleNumber(driverData.vehicleNumber);
-        fetchAssignedRoutes(driverData.vehicleNumber);
+        const vehicleNumberFromDriver = driverData.vehicleNumber;
+        setVehicleNumber(vehicleNumberFromDriver);
+        fetchAssignedRoutes(vehicleNumberFromDriver);
       } else {
         console.log("Driver not found.");
         setLoading(false);
       }
     } catch (error) {
-      console.error("Error fetching vehicle number:", error);
+      console.error("Error fetching vehicle number: ", error);
       setErrorMessage("Error fetching vehicle number.");
       setIsModalVisible(true);
       setLoading(false);
@@ -139,18 +78,28 @@ const D_RoutesScreen = ({ navigation }) => {
         if (routeDoc.exists) {
           const routeData = routeDoc.data();
           const fetchedRoutes = routeData?.stops || [];
+  
           const assignedRoutes = fetchedRoutes.filter(
             (route) => route.vehicleNumber === vehicleNumber
           );
-
+  
           setAssignedRoutes(assignedRoutes);
           setLoading(false);
-
+  
+          // Ensure that region is set only if assignedRoutes is not empty
           if (assignedRoutes.length > 0) {
             const firstRoute = assignedRoutes[0];
             setRegion({
               latitude: firstRoute.coordinate.latitude,
               longitude: firstRoute.coordinate.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            });
+          } else {
+            // Handle case when no assigned routes are found (optional)
+            setRegion({
+              latitude: 0,
+              longitude: 0,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             });
@@ -161,6 +110,7 @@ const D_RoutesScreen = ({ navigation }) => {
         }
       });
   };
+  
 
   const toggleMapOptions = () => {
     setShowMapOptions((prev) => !prev);
@@ -172,20 +122,21 @@ const D_RoutesScreen = ({ navigation }) => {
   };
 
   const changeMapType = (type) => {
-    setMapType(type);
-    setShowMapOptions(false);
+    setMapType(type); // Set the map type dynamically
+    setShowMapOptions(false); // Close the options menu
   };
 
   const toggleFullscreen = () => {
-    setIsFullscreen((prev) => !prev);
+    setIsFullscreen((prev) => !prev); // Toggle fullscreen mode
   };
 
   return (
     <View style={styles.container}>
+      {/* Map Section */}
       <View
         style={[
           styles.mapContainer,
-          { height: isFullscreen ? "60%" : "40%" },
+          { height: isFullscreen ? "60%" : "40%" }, // Adjust map size dynamically
         ]}
       >
         {loading ? (
@@ -200,6 +151,7 @@ const D_RoutesScreen = ({ navigation }) => {
             mapType={mapType}
             showsTraffic={showTraffic}
           >
+            {/* Render Markers for filtered Stops */}
             {assignedRoutes.map((route, index) => (
               <Marker
                 key={index}
@@ -214,37 +166,292 @@ const D_RoutesScreen = ({ navigation }) => {
           </MapView>
         )}
 
-        <TouchableOpacity style={styles.toggleButton} onPress={toggleMapOptions}>
-          <Icon2 name="globe" size={25} color="#616161" />
+        {/* Map Options Button */}
+        <TouchableOpacity
+          style={styles.toggleButton}
+          onPress={toggleMapOptions}
+        >
+          <View style={styles.iconBackground}>
+            <Icon2 name="globe" size={25} color="#616161" />
+          </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.toggleButton, { top: 100 }]} onPress={toggleFullscreen}>
-          <Icon name={isFullscreen ? "compress" : "expand"} size={25} color="#616161" />
-        </TouchableOpacity>
-
+        {/* Fullscreen Toggle Button */}
+       
+        {/* Animated options menu */}
         {showMapOptions && (
           <Animated.View style={[styles.optionsMenu, { opacity: animation }]}>
-            {["standard", "hybrid", "satellite"].map((type) => (
-              <TouchableOpacity key={type} style={styles.customButton} onPress={() => changeMapType(type)}>
-                <Text style={styles.buttonText}>{type.charAt(0).toUpperCase() + type.slice(1)}</Text>
-              </TouchableOpacity>
-            ))}
+            <TouchableOpacity
+              style={[styles.customButton, styles.standardButton]}
+              onPress={() => changeMapType("standard")}
+            >
+              <Text style={styles.buttonText}>Standard</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.customButton, styles.hybridButton]}
+              onPress={() => changeMapType("hybrid")}
+            >
+              <Text style={styles.buttonText}>Hybrid</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.customButton, styles.satelliteButton]}
+              onPress={() => changeMapType("satellite")}
+            >
+              <Text style={styles.buttonText}>Satellite</Text>
+            </TouchableOpacity>
           </Animated.View>
         )}
       </View>
 
-      <ScrollView contentContainerStyle={styles.routesContainer}>
+      {/* Route Cards Section */}
+      <ScrollView
+        contentContainerStyle={styles.routesContainer}
+        style={styles.scrollView}
+      >
         <Text style={styles.AvlBusesLabel}>Assigned Stops</Text>
         {assignedRoutes.length > 0 ? (
           assignedRoutes.map((route, index) => (
             <View key={index} style={styles.routeCard}>
-              <Text style={styles.CardTitle}>{route.title} - {route.vehicleNumber}</Text>
+              <View style={styles.cardContent}>
+                <View style={styles.iconContainer}>
+                  <Icon
+                    name="bus"
+                    size={30}
+                    color="#fa9837"
+                    style={styles.busIcon}
+                  />
+                </View>
+                <View style={styles.detailsContainer}>
+                  <Text style={styles.CardTitle}>
+                    {route.title} - {route.vehicleNumber}
+                  </Text>
+                  <View style={styles.divider} />
+                  <Text style={styles.routeText}>
+                    Category: {route.category}
+                  </Text>
+                  <Text style={styles.routeText}>
+                    Start: {route.startLocation}
+                  </Text>
+                  <Text style={styles.routeText}>
+                    Destination: {route.destination}
+                  </Text>
+                  <Text style={styles.routeText}>
+                    Time Slot: {route.timeSlot}
+                  </Text>
+                  <Text style={styles.routeText}>
+                    Description: {route.description}
+                  </Text>
+
+                  {/* New button to navigate to CompletedStops */}
+                  <TouchableOpacity
+                    style={styles.completedButton}
+                    onPress={() =>
+                      navigation.navigate("CompStops", {
+                        routeId: route.id,
+                      })
+                    }
+                  >
+                    <Text style={styles.completedButtonText}>
+                      View Completed Stops
+                    </Text>
+                    {/* Chevron Right Icon */}
+                    <Icon3
+                      name="chevron-forward"
+                      size={20}
+                      color="#fff"
+                      style={styles.chevronIcon}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
           ))
         ) : (
-          <Text>No routes assigned</Text>
+          <Text>No routes assigned to your vehicle number</Text>
         )}
       </ScrollView>
+
+      {/* Modal for errors */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => setIsModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Image
+              source={require("../../../../assets/warn.png")}
+              style={styles.image}
+              resizeMode="contain"
+            />
+            <Text style={styles.modalText}>{errorMessage}</Text>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => setIsModalVisible(false)}
+            >
+              <Text style={styles.modalButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f7f7f7",
+  },
+  mapContainer: {
+    position: "relative",
+    width: "100%",
+  },
+  map: {
+    flex: 1,
+  },
+  toggleButton: {
+    position: "absolute",
+    top: 55,
+    right: 12,
+    zIndex: 10,
+  },
+  iconBackground: {
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
+    padding: 8,
+    borderRadius: 0,
+  },
+  optionsMenu: {
+    position: "absolute",
+    top: 110,
+    right: 12,
+    borderRadius: 8,
+    padding: 1,
+  },
+  customButton: {
+    paddingVertical: 2,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginVertical: 5,
+    alignItems: "center",
+  },
+  standardButton: {
+    backgroundColor: "#4CAF50",
+  },
+  hybridButton: {
+    backgroundColor: "#FF9800",
+  },
+  satelliteButton: {
+    backgroundColor: "#2196F3",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 13,
+    fontFamily: "Raleway-Bold",
+  },
+  routesContainer: {
+    padding: 10,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  AvlBusesLabel: {
+    fontSize: 20,
+    marginBottom: 10,
+    fontFamily: "Raleway-Bold",
+  },
+  routeCard: {
+    backgroundColor: "#f9f9f9",
+    padding: 15,
+    marginVertical: 10,
+    borderRadius: 20,
+    borderWidth: 0.8,
+    borderColor: "#fa9837",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
+    elevation: 10,
+  },
+  cardContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  iconContainer: {
+    marginRight: 15,
+  },
+  busIcon: {
+    padding: 15,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 50,
+  },
+  detailsContainer: {
+    flex: 1,
+  },
+  CardTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  divider: {
+    borderBottomWidth: 0.8,
+    borderBottomColor: "#fa9837",
+    marginVertical: 10,
+  },
+  routeText: {
+    fontSize: 12,
+    color: "#333",
+    marginBottom: 5,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContainer: {
+    width: 250,
+    padding: 20,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalButton: {
+    backgroundColor: "#fa9837",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  completedButton: {
+    backgroundColor: "#2196F3",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    flexDirection: "row", // Use row to align text and icon horizontally
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 15,
+  },
+  completedButtonText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "bold",
+    marginRight: 8, // Space between the text and the icon
+  },
+  chevronIcon: {
+    marginLeft: 5, // Optional: Add space between text and the icon
+  },
+});
+
+export default D_RoutesScreen;

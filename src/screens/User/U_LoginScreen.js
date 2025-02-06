@@ -217,6 +217,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#ddd",
+    color: "black",
   },
   button: {
     backgroundColor: "#1a81f0",

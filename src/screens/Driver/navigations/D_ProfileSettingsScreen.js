@@ -16,11 +16,11 @@ import * as ImagePicker from "react-native-image-picker";
 import { Platform } from "react-native";
 import RNFS from "react-native-fs"; 
 
-const ProfileSettingsScreen = ({ navigation }) => {
+const D_ProfileSettingsScreen = ({ navigation }) => {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
-    address: "",
+
     profileImage: "",
   });
   const [loading, setLoading] = useState(true);
@@ -29,13 +29,13 @@ const ProfileSettingsScreen = ({ navigation }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const session = await AsyncStorage.getItem("userSession");
+      const session = await AsyncStorage.getItem("driverSession");
       if (session) {
         const { email } = JSON.parse(session);
 
         
         const userSnapshot = await firestore()
-          .collection("Users") 
+          .collection("Drivers") 
           .where("email", "==", email) 
           .get();
 
@@ -44,7 +44,6 @@ const ProfileSettingsScreen = ({ navigation }) => {
           setUserData({
             name: user.name,
             email: user.email,
-            address: user.address,
             profileImage: user.profileImage,
           });
         }
@@ -95,16 +94,15 @@ const ProfileSettingsScreen = ({ navigation }) => {
       const updatedUserData = {
         name: userData.name || "", 
         email: userData.email || "", 
-        address: userData.address || "", 
         profileImage: updatedProfileImage || "", 
       };
 
       
-      const session = await AsyncStorage.getItem("userSession");
+      const session = await AsyncStorage.getItem("driverSession");
       const { email } = JSON.parse(session);
 
       const userSnapshot = await firestore()
-        .collection("Users")
+        .collection("Drivers")
         .where("email", "==", email)
         .get();
 
@@ -117,21 +115,19 @@ const ProfileSettingsScreen = ({ navigation }) => {
 
       
       await firestore()
-        .collection("Users")
+        .collection("Drivers")
         .doc(userDoc.id) 
         .update({
           name: updatedUserData.name,
-          address: updatedUserData.address,
           profileImage: updatedUserData.profileImage,
         });
 
       
       await AsyncStorage.setItem(
-        "userSession",
+        "driverSession",
         JSON.stringify({
           email: updatedUserData.email,
           name: updatedUserData.name,
-          address: updatedUserData.address,
           profileImage: updatedUserData.profileImage, 
         })
       );
@@ -194,15 +190,6 @@ const ProfileSettingsScreen = ({ navigation }) => {
           style={styles.input}
           value={userData.email}
           editable={false} 
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Address</Text>
-        <TextInput
-          style={styles.input}
-          value={userData.address}
-          onChangeText={(text) => setUserData({ ...userData, address: text })}
         />
       </View>
 
@@ -273,7 +260,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   updateButton: {
-    backgroundColor: "#1a81f0",
+    backgroundColor: "#fa9837",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
@@ -286,4 +273,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileSettingsScreen;
+export default D_ProfileSettingsScreen;

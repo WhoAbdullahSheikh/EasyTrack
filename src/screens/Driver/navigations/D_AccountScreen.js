@@ -141,7 +141,7 @@ const D_AccountScreen = () => {
       {/* Profile Settings */}
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("D_EditProfile")}
+        onPress={() => navigation.navigate("DProfileSettings")}
       >
         <Ionicons
           name="person-circle-outline"
@@ -159,7 +159,9 @@ const D_AccountScreen = () => {
       </TouchableOpacity>
 
       {/* Privacy & Security */}
-      <TouchableOpacity style={styles.securityButton}>
+      <TouchableOpacity style={styles.securityButton}
+         onPress={() => navigation.navigate("ForgotPassword")
+      }>
         <Ionicons
           name="shield-checkmark-outline"
           size={25}

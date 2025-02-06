@@ -163,7 +163,9 @@ const AccountScreen = () => {
       </TouchableOpacity>
 
       {/* Privacy & Security */}
-      <TouchableOpacity style={styles.securityButton}>
+      <TouchableOpacity style={styles.securityButton}
+        onPress={() => navigation.navigate("UForgotPassword")}
+        >
         <Ionicons
           name="shield-checkmark-outline"
           size={25}

@@ -14,6 +14,7 @@ import {
   Platform 
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import  Ionicons  from 'react-native-vector-icons/Ionicons'; // Import Ionicons for the show password icon
 
 const U_SignUpScreen = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -24,6 +25,8 @@ const U_SignUpScreen = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false); // Manage password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Manage confirm password visibility
 
   const usersCollection = firestore().collection('Users');
 
@@ -120,23 +123,41 @@ const U_SignUpScreen = ({ navigation }) => {
           maxLength={10}
         />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#888"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
+        {/* Password Field with Show/Hide Icon */}
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="#888"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword} // Toggle the visibility
+          />
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            style={styles.eyeIcon}
+          >
+            <Ionicons name={showPassword ? 'eye-off' : 'eye'} size={24} color="#888" />
+          </TouchableOpacity>
+        </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          placeholderTextColor="#888"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-        />
+        {/* Confirm Password Field with Show/Hide Icon */}
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            placeholderTextColor="#888"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry={!showConfirmPassword} // Toggle the visibility
+          />
+          <TouchableOpacity
+            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+            style={styles.eyeIcon}
+          >
+            <Ionicons name={showConfirmPassword ? 'eye-off' : 'eye'} size={24} color="#888" />
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity style={styles.button} onPress={handleSignUp}>
           <Text style={styles.buttonText}>Sign Up</Text>
@@ -227,6 +248,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#ddd',
+    color: "black",
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: 15,
+    top: 15,
   },
   button: {
     backgroundColor: '#1a81f0',

@@ -182,20 +182,6 @@ const D_RoutesScreen = ({ navigation }) => {
       });
   };
 
-  const toggleMapOptions = () => {
-    setShowMapOptions((prev) => !prev);
-    Animated.timing(animation, {
-      toValue: showMapOptions ? 0 : 1,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const changeMapType = (type) => {
-    setMapType(type);
-    setShowMapOptions(false);
-  };
-
   const toggleFullscreen = () => {
     setIsFullscreen((prev) => !prev);
   };
@@ -243,39 +229,7 @@ const D_RoutesScreen = ({ navigation }) => {
             />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.toggleButton, { top: 60 }]}
-          onPress={toggleMapOptions}
-        >
-          <View style={styles.iconBackground}>
-            <Icon2 name="globe" size={20} color="#616161" />
-          </View>
-        </TouchableOpacity>
-
-        {showMapOptions && (
-          <Animated.View style={[styles.optionsMenu, { opacity: animation }]}>
-            <TouchableOpacity
-              style={[styles.customButton, styles.standardButton]}
-              onPress={() => changeMapType("standard")}
-            >
-              <Text style={styles.buttonText}>Standard</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.customButton, styles.hybridButton]}
-              onPress={() => changeMapType("hybrid")}
-            >
-              <Text style={styles.buttonText}>Hybrid</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.customButton, styles.satelliteButton]}
-              onPress={() => changeMapType("satellite")}
-            >
-              <Text style={styles.buttonText}>Satellite</Text>
-            </TouchableOpacity>
-          </Animated.View>
-        )}
+        
       </View>
 
       <View style={styles.routesContainer}>
@@ -327,7 +281,7 @@ const D_RoutesScreen = ({ navigation }) => {
                 }
               >
                 <Text style={styles.completedButtonText}>
-                  View Completed Stops
+                  View Stops
                 </Text>
                 {/* Chevron Right Icon */}
                 <Icon3
@@ -363,37 +317,14 @@ const styles = StyleSheet.create({
   },
   toggleButton: {
     position: "absolute",
-    top: 10,
-    left: 12,
+    top: 55,
+    right: 12,
     zIndex: 10,
   },
   iconBackground: {
-    backgroundColor: "rgba(255, 255, 255, 0.6)",
-    padding: 8,
+    backgroundColor: "rgba(255, 255, 255, 0.65)",
+    padding: 10,
     borderRadius: 0,
-  },
-  optionsMenu: {
-    position: "absolute",
-    top: 95,
-    left: 12,
-    borderRadius: 8,
-    padding: 1,
-  },
-  customButton: {
-    paddingVertical: 2,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    marginVertical: 5,
-    alignItems: "center",
-  },
-  standardButton: {
-    backgroundColor: "#4CAF50",
-  },
-  hybridButton: {
-    backgroundColor: "#FF9800",
-  },
-  satelliteButton: {
-    backgroundColor: "#2196F3",
   },
   buttonText: {
     color: "#fff",
@@ -416,8 +347,9 @@ const styles = StyleSheet.create({
   routesContent: {
     padding: 10,
     backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingBottom: 70,
   },
   routeCard: {
     backgroundColor: "#f9f9f9",
@@ -443,6 +375,8 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: "#e0e0e0",
     borderRadius: 50,
+    borderColor: "#fa9837",
+    borderWidth: 1,
   },
   detailsContainer: {
     flex: 1,
@@ -460,6 +394,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#333",
     marginBottom: 5,
+  },
+  routeLabel: {
+    fontWeight: "bold", // Bold the label
+    fontSize: 12,  // Same size as routeText
+    color: "#333",
   },
   modalOverlay: {
     flex: 1,

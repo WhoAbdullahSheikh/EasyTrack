@@ -13,6 +13,9 @@ import D_SignUpScreen from "./src/screens/Driver/D_SignUpScreen";
 import D_LoginScreen from "./src/screens/Driver/D_LoginScreen";
 import DriverMainAppScreen from "./DriverMainAppScreen";
 import CompletedStopsScreen from "./src/screens/Driver/navigations/CompletedStopsScreen";
+import D_ProfileSettingsScreen from "./src/screens/Driver/navigations/D_ProfileSettingsScreen";
+import D_ForgotPasswordScreen from "./src/screens/Driver/navigations/D_ForgotPasswordScreen";
+import U_ForgotPasswordScreen from "./src/screens/User/navigations/U_ForgotPasswordScreen";
 
 const Stack = createStackNavigator();
 
@@ -23,38 +26,32 @@ const App = () => {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        
         const userSession = await AsyncStorage.getItem("userSession");
         console.log("User Session:", userSession);
-        
-        
+
         if (userSession) {
           setInitialRoute("MainApp");
           return;
         }
 
-        
         const driverSession = await AsyncStorage.getItem("driverSession");
         console.log("Driver Session:", driverSession);
-        
-        
+
         if (driverSession) {
           setInitialRoute("DriverMainApp");
           return;
         }
 
-        
         setInitialRoute("Options");
-
       } catch (error) {
         console.error("Error checking session", error);
-        setInitialRoute("Options"); 
+        setInitialRoute("Options");
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
     };
 
-    checkSession(); 
+    checkSession();
   }, []);
 
   if (isLoading) {
@@ -164,11 +161,83 @@ const App = () => {
           }}
         />
         <Stack.Screen
+          name="DProfileSettings"
+          component={D_ProfileSettingsScreen}
+          options={{
+            headerShown: true,
+            headerTitle: "Profile Settings",
+            headerStyle: {
+              backgroundColor: "#fa9837",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+              elevation: 5,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 5,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontFamily: "Raleway-Bold",
+              fontSize: 20,
+            },
+            headerTitleAlign: "center",
+          }}
+        />
+        <Stack.Screen
+          name="ForgotPassword"
+          component={D_ForgotPasswordScreen}
+          options={{
+            headerShown: true,
+            headerTitle: "Profile Settings",
+            headerStyle: {
+              backgroundColor: "#fa9837",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+              elevation: 5,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 5,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontFamily: "Raleway-Bold",
+              fontSize: 20,
+            },
+            headerTitleAlign: "center",
+          }}
+        />
+        <Stack.Screen
+          name="UForgotPassword"
+          component={U_ForgotPasswordScreen}
+          options={{
+            headerShown: true,
+            headerTitle: "Profile Settings",
+            headerStyle: {
+              backgroundColor: "#1a81f0",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+              elevation: 5,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 5,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontFamily: "Raleway-Bold",
+              fontSize: 20,
+            },
+            headerTitleAlign: "center",
+          }}
+        />
+        <Stack.Screen
           name="CompStops"
           component={CompletedStopsScreen}
           options={{
             headerShown: true,
-            headerTitle: "Stops Completed",
+            headerTitle: "Stops Assigned",
             headerStyle: {
               backgroundColor: "#fa9837",
               borderBottomLeftRadius: 30,
