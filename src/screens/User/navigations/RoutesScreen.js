@@ -35,8 +35,8 @@ const RoutesScreen = () => {
   const [animation] = useState(new Animated.Value(0));
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showTraffic, setShowTraffic] = useState(true);
+  const [isLoading] = useState(false);
+  const [showTraffic] = useState(true);
 
   const scrollViewRef = useRef(null);
 
@@ -130,12 +130,18 @@ const RoutesScreen = () => {
 
     if (
       (startLocation.toLowerCase() !== "islamabad" &&
-        startLocation.toLowerCase() !== "rawalpindi") ||
+        startLocation.toLowerCase() !== "rawalpindi" &&
+        startLocation.toLowerCase() !== "saddar" &&
+        startLocation.toLowerCase() !==
+          "capital university of science & technology") ||
       (destination.toLowerCase() !== "islamabad" &&
-        destination.toLowerCase() !== "rawalpindi")
+        destination.toLowerCase() !== "rawalpindi" &&
+        destination.toLowerCase() !== "saddar" &&
+        destination.toLowerCase() !==
+          "capital university of science & technology")
     ) {
       showModal(
-        "We operate only in Islamabad and Rawalpindi. Please choose valid locations."
+        "We operate only in Islamabad, Rawalpindi, Saddar, and Capital University of Science & Technology. Please choose valid locations."
       );
       return;
     }
